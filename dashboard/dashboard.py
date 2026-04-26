@@ -15,7 +15,7 @@ sns.set_theme(style="whitegrid")
 # ==============================
 @st.cache_data
 def load_data():
-    df = pd.read_csv("main_data.csv")
+    df = pd.read_csv(("dashboard/main_data.csv"))
     
     # List kolom yang biasanya beda antara dataset asli vs codingan
     rename_dict = {
