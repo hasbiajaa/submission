@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-# --- PERBAIKAN 1: Pindah ke Paling Atas ---
-# set_page_config WAJIB dipanggil pertama kali di Streamlit
+
+# set_page_config 
 st.set_page_config(page_title="Bike Sharing Dashboard", page_icon="🚲", layout="wide")
 
 # Mengatur tema seaborn
@@ -23,13 +23,13 @@ def load_data():
         'cnt': 'total_count',
         'hum': 'humidity',
         'weathersit': 'weather',
-        'yr': 'year' # <-- Tambahan jaga-jaga kalau namanya masih 'yr'
+        'yr': 'year' 
     }
     
     # Rename kolom yang ada aja
     df.rename(columns=rename_dict, inplace=True)
     
-    # --- PERBAIKAN 2: Typo nama kolom disamakan jadi 'date' ---
+    
     if 'date' in df.columns:
         df['date'] = pd.to_datetime(df['date'])
         
@@ -59,9 +59,9 @@ with st.sidebar:
         default=df['season'].unique()
     )
 
-# --- PERBAIKAN 3: Antisipasi tipe data pas filter ---
+
 if tahun_pilihan != 'Semua Tahun':
-    # Diubah ke string dulu biar filter teks vs angkanya gak nge-bug
+
     main_df = df[df['year'].astype(str) == tahun_pilihan]
 else:
     main_df = df.copy()
@@ -95,7 +95,7 @@ ax1.set_ylabel("Rata-rata Sewa")
 ax1.set_xlabel("Kondisi Cuaca")
 st.pyplot(fig1)
 
-st.write("") # Kasih jarak dikit biar rapi
+st.write("") 
 
 # --- GRAFIK B (BAWAH): BOXPLOT ---
 st.markdown("**B. Distribusi Total Sewa per Kondisi Cuaca**")
@@ -125,12 +125,12 @@ ax3.set_ylabel("Rata-rata Sewa Total")
 ax3.set_xlabel("Kategori Hari")
 st.pyplot(fig3)
 
-st.write("") # Kasih jarak dikit biar gak terlalu nempel
+st.write("")
 
 # --- GRAFIK 2 (BAWAH): KOMPOSISI PENGGUNA ---
 st.markdown("**B. Komposisi: Kasual vs Terdaftar**")
 
-# Melt data untuk misahin casual dan registered
+
 data_melted = main_df.melt(
     id_vars=['workingday'], 
     value_vars=['casual', 'registered'], 
@@ -138,7 +138,7 @@ data_melted = main_df.melt(
     value_name='count'
 )
 
-# Mapping nama kategori hari biar rapi
+# Mapping nama kategori hari
 data_melted['workingday'] = data_melted['workingday'].replace({'0': 'Akhir Pekan/Libur', '1': 'Hari Kerja', 0: 'Akhir Pekan/Libur', 1: 'Hari Kerja'})
 
 fig4, ax4 = plt.subplots(figsize=(10, 5))
